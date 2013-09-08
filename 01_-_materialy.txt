@@ -1,0 +1,35 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-09-08T15:54:10+02:00
+
+====== 01 - materialy ======
+Created Sunday 08 September 2013
+
+http://www.rubyinside.com/21-ruby-tricks-902.html
+
+http://rubyreflector.com/ - perfektni zdroj informaci ohledne ruby - knihovny, atd.
+
+http://www.mikeperham.com/ - zajimavy blog
+http://www.paperplanes.de/tags/ruby.html - dalsi uzitecne clanky
+
+http://blog.madebydna.com/all/code/2011/06/24/eigenclasses-demystified.html
+https://github.com/ryanlecompte/method_locator - zajimavy priklad pouziti
+
+http://www.rubyflow.com/items/9606-practicing-ruby-s-public-archives - !!! THIS IS THE BEST
+
+http://www.rubytapas.com/
+http://devblog.avdi.org/
+https://github.com/avdi
+http://www.pairprogramwith.me[[http://www.pairprogramwith.me/|/]]
+
+http://chadfowler.com/
+
+http://timelessrepo.com/
+http://jeffkreeftmeijer.com/archive/
+http://blog.rubybestpractices.com/posts/judofyr/sexp-for-rubyists.html - dole aplikace analyzujici kod
+
+http://devblog.avdi.org/2013/08/26/confident-ruby-is-finished/
+http://devblog.avdi.org/2013/07/05/new-book-and-a-huge-birthday-sale/
+http://svs.io/post/59495114366/roll-your-own-web-framework-in-half-an-hour - rack, ActionDispatch, rails is often an overkill (APIs, microservices) or use only necessary parts of it
+
+http://www.confreaks.com/events/lonestarruby2013

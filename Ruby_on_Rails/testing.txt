@@ -1,0 +1,17 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-09-08T15:06:34+02:00
+
+====== testing ======
+Created Sunday 08 September 2013
+
+https://github.com/rspec/rspec-rails
+https://github.com/thoughtbot/shoulda-matchers
+https://github.com/jnicklas/capybara
+
+https://github.com/fredwu/api_taster - visually testing Rails APIs
+
+https://github.com/bmabey/database_cleaner - when testing js requests (e.g. by Capybara), you can't use transactional fixtures because the webserver runs in separate process that can't access the database when transaction is open in the test process, which leads to lock
+
+http://stackoverflow.com/questions/8956816/comprehensive-guide-on-testing-rails-app
+https://leanpub.com/everydayrailsrspec

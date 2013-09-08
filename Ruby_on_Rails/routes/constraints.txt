@@ -1,0 +1,48 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-09-08T13:46:50+02:00
+
+====== constraints ======
+Created Sunday 08 September 2013
+
+===== verb constraints =====
+match 'photos', to: 'photos#show', via: [:get, :post]
+match 'photos', to: 'photos#show', via: :all
+
+===== segment constraints =====
+get 'photos/:id', to: 'photos#show', constraints: { id: /[A-Z]\d{5}/ }
+* OR
+get 'photos/:id', to: 'photos#show', id: /[A-Z]\d{5}/
+
+* anchors (^$) can't be used in constraint regexes
+
+===== request-based constraints =====
+* You can also constrain a route based on any method on the Request object that returns a String.
+get 'photos', constraints: {subdomain: 'admin'}
+* OR
+namespace :admin do
+  constraints subdomain: 'admin' do
+    resources :photos
+  end
+end
+
+===== advanced =====
+class BlacklistConstraint
+  def initialize
+    @ips = Blacklist.retrieve_ips
+  end
+ 
+  def matches?(request)
+    @ips.include?(request.remote_ip)
+  end
+end
+ 
+TwitterClone::Application.routes.draw do
+  get '*path', to: 'blacklist#index',
+    constraints: BlacklistConstraint.new
+end
+-----
+TwitterClone::Application.routes.draw do
+  get '*path', to: 'blacklist#index',
+    constraints: lambda { |request| Blacklist.retrieve_ips.include?(request.remote_ip) }
+end
