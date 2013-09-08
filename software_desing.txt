@@ -1,0 +1,45 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-09-08T15:26:45+02:00
+
+====== software desing ======
+Created Sunday 08 September 2013
+
+* SOLID
+https://practicingruby.com/articles/shared/tvtqekhpyjla
+http://confreaks.com/videos/240-goruco2009-solid-object-oriented-design
+video - 20th minute - questions you should ask yourself when your tests go green:
+is it DRY?
+does it have one resoponsibility?
+does everything in it change at the same rate?
+does it depend on things that change less often than it does?
+http://www.growing-object-oriented-software.com/
+http://www.amazon.com/Software-Development-Principles-Patterns-Practices/dp/[[http://www.amazon.com/Software-Development-Principles-Patterns-Practices/dp/0135974445/|0135974445/]]
+
+http://en.wikipedia.org/wiki/Law_of_Demeter
+
+http://confreaks.com/videos/77-mwrc2009-the-building-blocks-of-modularity - "Grand Unified Theory of Software Development"
+http://en.wikipedia.org/wiki/Connascence_(computer_programming)
+
+http://sandimetz.com/
+
+http://www.youtube.com/watch?v=WpkDN78P884 - software architecture - 
+	 web is only a delivery mechanism and it's slow
+	the web should not be the application's main concern - it's an implementational detail
+	don't design your code to fit to a framework,
+	defer implementation-specific decisions untill needed
+	why do we have a test suite? to be able to refactor with confidence
+	you need your tests to run fast - decouple everything, that's slow - web, database
+
+http://www.youtube.com/watch?v=iUe6tacW3JE - deconstructing the framework
+	* rails controller terribly violates the single responsibility principle (object should have only one reason to change)
+	* usual responsibilities: authentication/authorization, wrap http (headers, params, status), manipulate model, manipulate/query database
+		present models, create response content, route (redirect), choose content type
+	* decompose - introduce presenter, db read, db write - entities, http read, http write - controller becomes logic
+		* response part handles http write
+		* authentication should be route's concern - route should match object x, action (verb) y and state z (e.g. auth status)
+	* wrappers for external services (good reason for models) - ruby has a culture of fast change without much regard to backward compatibility - you want
+		to insulate yourself from their api
+
+http://www.informit.com/store/practical-object-oriented-design-in-ruby-an-agile-primer-9780321721334
+http://www.amazon.com/gp/product/0321603508 - Refactoring - ruby edition
