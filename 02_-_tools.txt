@@ -2,7 +2,7 @@ Content-Type: text/x-zim-wiki
 Wiki-Format: zim 0.4
 Creation-Date: 2013-09-08T15:54:45+02:00
 
-====== 02 - nastroje ======
+====== 02 - tools ======
 Created Sunday 08 September 2013
 
 http://whatisthor.com/
