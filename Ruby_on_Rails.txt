@@ -17,22 +17,13 @@ http://guides.rubyonrails.org/i18n.html - localization of rails apps
 	* setting the locale from domain name
 http://guides.rubyonrails.org/active_record_callbacks.html
 
-http://builder.rubyforge.org/ - ruby xml builder
-http://haml.info/tutorial.html - markup language for HTML templating
-https://github.com/slim-template/slim - haml alternative
-
 http://sl33p3r.free.fr/tutorials/rails/legacy/legacy_databases.html
 http://www.slideshare.net/napcs/rails-and-legacy-databases-railsconf-2009
 script/generate model tablename
 
-https://github.com/TalentBox/sequel-rails
-http://fredwu.me/post/58910814911/gotchas-in-the-ruby-sequel-gem
-
 https://www.petekeen.net/mastering-modern-payments
 http://blog.sensible.io/2013/08/17/strong-parameters-by-example.html
 http://matthewlehner.net/rails-api-testing-guidelines/
-
-http://foundation.zurb.com/docs/ - organizace stranky do gridu
 
 http://blog.arkency.com/ - great, mostly Rails, blog
 http://blog.arkency.com/2013/05/is-it-cute-or-ugly/
@@ -47,9 +38,10 @@ http://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html - o
 
 http://blog.steveklabnik.com/posts/2011-09-06-the-secret-to-rails-oo-design
 http://blog.steveklabnik.com/posts/2011-09-09-better-ruby-presenters
+http://words.steveklabnik.com/
+
+http://www.manning.com/bigg2/ - Rails 4 in action
 
 http://kpumuk.info/ruby-on-rails/simplifying-your-ruby-on-rails-code/
-
-https://github.com/drapergem/draper - decorators/view-models for rails apps
 
 http://railscasts.com/?type=free

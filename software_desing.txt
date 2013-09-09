@@ -43,3 +43,8 @@ http://www.youtube.com/watch?v=iUe6tacW3JE - deconstructing the framework
 
 http://www.informit.com/store/practical-object-oriented-design-in-ruby-an-agile-primer-9780321721334
 http://www.amazon.com/gp/product/0321603508 - Refactoring - ruby edition
+
+http://blog.steveklabnik.com/posts/2011-09-06-the-secret-to-rails-oo-design
+http://blog.steveklabnik.com/posts/2011-09-09-better-ruby-presenters
+
+http://www.amazon.com/Working-Effectively-Legacy-Michael-Feathers/dp/0131177052

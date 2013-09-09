@@ -1,0 +1,17 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-09-08T17:45:38+02:00
+
+====== tools ======
+Created Sunday 08 September 2013
+
+http://builder.rubyforge.org/ - ruby xml builder
+http://haml.info/tutorial.html - markup language for HTML templating
+https://github.com/slim-template/slim - haml alternative
+
+https://github.com/TalentBox/sequel-rails
+http://fredwu.me/post/58910814911/gotchas-in-the-ruby-sequel-gem
+
+http://foundation.zurb.com/docs/ - organizace stranky do gridu
+
+https://github.com/drapergem/draper - decorators/view-models for rails apps
