@@ -17,9 +17,27 @@ http://guides.rubyonrails.org/i18n.html - localization of rails apps
 	* setting the locale from domain name
 http://guides.rubyonrails.org/active_record_callbacks.html
 
-http://sl33p3r.free.fr/tutorials/rails/legacy/legacy_databases.html
+===== working with databases that don't follow AR naming guidelines =====
+http://edgeguides.rubyonrails.org/active_record_basics.html#overriding-the-naming-conventions
+http://jvans1.github.io/blog/2012/11/20/new-post/
 http://www.slideshare.net/napcs/rails-and-legacy-databases-railsconf-2009
+http://sl33p3r.free.fr/tutorials/rails/legacy/legacy_databases.html
+
+'''
 script/generate model tablename
+class Client < ActiveRecord::Base
+'''
+	'''
+	set_table_name "client" OR self.table_name = "client"
+	set_primary_key "client_id" OR self.primary_key = "client_id"
+	
+	has_one :firma, :class_name => "Firma", :foreign_key => "firma_key"
+	alias_attribute 'name', 'person_name'
+	
+	pluralize_table_names = false # this shouldn't be needed
+	end
+	'''
+
 
 https://www.petekeen.net/mastering-modern-payments
 http://blog.sensible.io/2013/08/17/strong-parameters-by-example.html

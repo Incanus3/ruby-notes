@@ -5,6 +5,8 @@ Creation-Date: 2013-09-08T01:46:23+02:00
 ====== routes ======
 Created Sunday 08 September 2013
 
+* in development mode, list of routes is accessible at http://localhost:3000/rails/info/routes
+
 ===== Creating Paths and URLs From Objects =====
 resources :magazines do
   resources :ads
