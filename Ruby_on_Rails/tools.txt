@@ -5,13 +5,66 @@ Creation-Date: 2013-09-08T17:45:38+02:00
 ====== tools ======
 Created Sunday 08 September 2013
 
+===== api =====
+https://github.com/rails-api/rails-api - generatory pro programovani API v railsech - osekane o zbytecne moduly, rack middleware, ...
+
+===== templating =====
 http://builder.rubyforge.org/ - ruby xml builder
 http://haml.info/tutorial.html - markup language for HTML templating
 https://github.com/slim-template/slim - haml alternative
 
-https://github.com/TalentBox/sequel-rails
-http://fredwu.me/post/58910814911/gotchas-in-the-ruby-sequel-gem
-
 http://foundation.zurb.com/docs/ - organizace stranky do gridu
 
+===== form builders =====
+https://www.ruby-toolbox.com/categories/rails_form_builders
+
+===== databases =====
+https://github.com/TalentBox/sequel-rails
+http://fredwu.me/post/58910814911/gotchas-in-the-ruby-sequel-gem
+https://github.com/zdennis/activerecord-import/ - save AR records in batch
+
+===== desing patterns =====
 https://github.com/drapergem/draper - decorators/view-models for rails apps
+
+===== development helpers =====
+https://github.com/charliesome/better_errors - lepsi hlaseni chyb pro railsy/sinatru
+	* click file name link in code frame to open editor, should work with gem files too
+		* to customize editor, add initializer with BetterErrors.editor = ... (if BetterErrors.defined?)
+	* visit path __better_errors - shows last occurred exception, including javascript ones
+https://github.com/dejan/rails_panel - chrome web development addon (with helper gem for rails)
+https://github.com/michaeldv/awesome_print - funkce ap - jako pp, ale lepe strukturovany vystup
+https://github.com/tobytripp/Putsinator - prida ke kazdemu puts vystupu soubor a radek
+https://github.com/JoshCheek/seeing_is_believing - otaguje ruby zdrojak komentari s vystupy jednotlivych radku
+https://github.com/cldwalker/hirb - database viewers (as table) for irb
+* https://github.com/janlelis/irbtools
+https://github.com/ctran/annotate_models - adds comments with schema to models
+https://github.com/evrone/quiet_assets - disables logging of asset pipeline (requests for js, css, favicon, ...)
+
+	* methodfinder - "abc".find_method("ABC") #=> ["String#swapcase", "String#upcase", ...]
+
+https://github.com/mattetti/Weasel-Diesel - DSL to describe, document and test web services
+
+https://github.com/josevalim/inherited_resources
+https://www.petekeen.net/dry-your-rails-crud-with-simple-form-and-inherited-resources
+
+https://github.com/sferik/rails_admin
+
+===== code metrics =====
+https://github.com/railsbp/rails_best_practices
+https://github.com/troessner/reek
+
+===== authentication =====
+https://github.com/plataformatec/devise
+https://github.com/plataformatec/devise/wiki
+http://rubydoc.info/github/plataformatec/devise/master/frames
+https://github.com/plataformatec/devise/wiki/Example-Applications
+http://railscasts.com/episodes/209-introducing-devise
+http://railscasts.com/episodes/210-customizing-devise
+
+===== authorization =====
+https://github.com/ryanb/cancan - Authorization Gem for Ruby on Rails. - which users can access which resources
+	* expects current_user method in controller - on top of devise
+	* very good dsl - expressive, simple
+	* https://github.com/ryanb/cancan/wiki/defining-abilities
+	* https://github.com/ryanb/cancan/wiki/Role-Based-Authorization
+	* https://github.com/RailsApps/rails3-bootstrap-devise-cancan

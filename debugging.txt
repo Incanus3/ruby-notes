@@ -11,3 +11,7 @@ ObjectSpace also provides support for object finalizers, procs that will be call
 
 http://www.scribd.com/doc/23548865/Debugging-Ruby - tracing
 * Thread.abort_on_exception = true - **perfektni pro debug** - jinak muzou vyjimky casto uniknout - pokud jsou v jinem vlakne, nikdo se to nedozvi
+
+
+https://github.com/deivid-rodriguez/byebug
+https://github.com/deivid-rodriguez/pry-byebug - ruby-debugger -> pry-debugger doesn't work on ruby 2.0

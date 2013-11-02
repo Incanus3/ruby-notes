@@ -5,8 +5,12 @@ Creation-Date: 2013-09-08T01:47:07+02:00
 ====== resourceful routes ======
 Created Sunday 08 September 2013
 
+* resources directive takes name of the resource and options hash:
+	* specify actions - options only, except
+* it can also take a block to specify additional routes (member, collection), nested resources, etc.
+
 * namespace :admin { resources :posts, ... }  - uzavre controllery do modulu, _path a _url budou mit prefix, path - /admin/posts
-* scope '/admin' { resources :posts, ... } resources :posts, path: '/admin/posts' - controllery nebudou v modulu
+* scope '/admin' { resources :posts, ... } NEBO resources :posts, path: '/admin/posts' - controllery nebudou v modulu
 * scope module: 'admin' { resources :posts, ... } NEBO resources :posts, module: 'admin' - uzavre controllery do modulu, ale path - /posts
 
 ===== nested resources =====

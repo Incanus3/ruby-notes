@@ -2,12 +2,12 @@ Content-Type: text/x-zim-wiki
 Wiki-Format: zim 0.4
 Creation-Date: 2013-09-08T15:54:45+02:00
 
-====== 02 - tools ======
+====== tools & gems ======
 Created Sunday 08 September 2013
 
-http://whatisthor.com/
+https://github.com/tarcieri/http - very simple dsl for making http requests
 
-http://airbrake.io/pages/home - error collection for webapps
+http://whatisthor.com/
 
 http://krainboltgreene.github.io/hexpress/ - constructing regular expressions in human readable form
 
@@ -22,21 +22,6 @@ https://codeclimate.com/ - automated ruby code review - code quality metrics
 
 https://github.com/cowboyd/mvcli - framework for creating cli apps with rails-like architecture - templates, routes, ...
 
-'''
-pry(main)> ls FileUtils
-FileUtils.methods: 
-'''
-
-            ''cd              compare_stream  install   mv                       rm         ''
-''  chdir           copy            link      options                  rm_f       ''
-''  chmod           copy_entry      ln        options_of               rm_r       ''
-''  chmod_R         copy_file       ln_s      private_module_function  rm_rf      ''
-''  chown           copy_stream     ln_sf     pwd                      rmdir      ''
-''  chown_R         cp              makedirs  remove                   rmtree     ''
-''  cmp             cp_r            mkdir     remove_dir               safe_unlink''
-''  collect_method  getwd           mkdir_p   remove_entry             symlink    ''
-''  commands        have_option?    mkpath    remove_entry_secure      touch      ''
-''  compare_file    identical?      move      remove_file              uptodate?''  
 
 ===== God =====
 http://godrb.com/ - God is an easy to configure, easy to extend monitoring framework written in Ruby.

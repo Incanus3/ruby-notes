@@ -20,3 +20,16 @@ get 'photos/:id', to: 'photos#show', defaults: { format: 'jpg' }
 
 get 'exit', to: 'sessions#destroy', as: :logout    - logout_path, logout_url
 get ':username', to: 'users#show', as: :user
+
+* namespace :admin { resources :posts, ... }  - uzavre controllery do modulu, _path a _url budou mit prefix, path - /admin/posts
+* scope '/admin' { resources :posts, ... } NEBO resources :posts, path: '/admin/posts' - controllery nebudou v modulu
+* scope module: 'admin' { resources :posts, ... } NEBO resources :posts, module: 'admin' - uzavre controllery do modulu, ale path - /posts
+
+http://api.rubyonrails.org/classes/ActionDispatch/Routing.html - good examples of routes, e.g. 
+'''
+get '/articles/:year/:month/:day' => 'articles#find_by_id', constraints: {
+  year:       /\d{4}/,
+  month:      /\d{1,2}/,
+  day:        /\d{1,2}/
+}
+'''

@@ -2,10 +2,14 @@ Content-Type: text/x-zim-wiki
 Wiki-Format: zim 0.4
 Creation-Date: 2013-09-08T01:46:23+02:00
 
-====== routes ======
+====== 01 - ActionDispatch - routes ======
 Created Sunday 08 September 2013
 
-* in development mode, list of routes is accessible at http://localhost:3000/rails/info/routes
+* rake routes
+
+===== creating paths dynamically =====
+http://api.rubyonrails.org/classes/ActionDispatch/Routing/UrlFor.html
+http://api.rubyonrails.org/classes/ActionController/Redirecting.html - redirect_to uses url_for on its option hash (same as link_to and similar)
 
 ===== Creating Paths and URLs From Objects =====
 resources :magazines do

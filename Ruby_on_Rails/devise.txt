@@ -1,0 +1,228 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-10-21T15:51:16+02:00
+
+====== devise ======
+Created Monday 21 October 2013
+
+http://blog.plataformatec.com.br/2013/08/devise-3-1-now-with-more-secure-defaults/ - deprecation of token_authenticatable
+https://gist.github.com/josevalim/fb706b1e933ef01e4fb6 - gist from devise author to implement token authentication yourself
+
+http://rdoc.info/github/plataformatec/devise/ActionDispatch/Routing/Mapper#authenticated-instance_method
+https://github.com/plataformatec/devise/wiki/How-To:-Find-a-user-when-you-have-their-credentials
+https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-sign-in-using-their-username-or-email-address
+
+* devise communicates with the rest of the rack stack using request.env, e.g. request.env['warden'], request.env["devise.allow_params_authentication"]
+* override SessionsController#create to call super if email/login and password params were supplied or find user according to card_id and firma_id and call sign_in helper on it
+'''
+class SessionsController
+  # POST /resource/sign_in
+  def create
+    self.resource = warden.authenticate!(auth_options)       # this is unacceptable if not using password!
+    set_flash_message(:notice, :signed_in) if is_navigational_format?  # the rest we need
+    sign_in(resource_name, resource)
+    respond_with resource, :location => after_sign_in_path_for(resource)
+  end
+end
+'''
+
+
+* sign in call path:
+* SessionsController#create
+	* -> warden.authenticate!
+		* -> Strategies::DatabaseAuthenticatable#authenticate! :
+'''
+def authenticate!
+  resource = valid_password? && mapping.to.find_for_database_authentication(authentication_hash)
+  return fail(:not_found_in_database) unless resource
+
+  if validate(resource){ resource.valid_password?(password) }
+    resource.after_database_authentication
+    success!(resource)
+  end
+end
+'''
+
+• -> Strategies::Authenticatable#valid_password?
+• -> Strategies::Authenticatable#validate
+• -> User.find_for_database_authentication # override to find by client_id, firma_id
+			* -> User.valid_password?
+
+===== strategies =====
+
+==== Authenticatable ====
+* valid_password? - tests if password is present and not == 'X'
+* validate(resource,&block)
+	* calls resource.valid_for_authentication?(&block)
+
+==== DatabaseAuthenticatable ====
+* inherits Authenticatable
+* authenticate! - calls:
+	* valid_password?
+	* resource.find_for_database_authentication(authentication_hash)
+	* validate(resource) { resource.valid_password?(password) }
+* Warden::Strategies.add(:database_authenticatable, Devise::Strategies::DatabaseAuthenticatable)
+
+===== routing =====
+http://rdoc.info/github/plataformatec/devise/frames/ActionDispatch/Routing/Mapper - documentation of devise routing
+* authenticate - allow you to add authentication request from the router
+'''
+authenticate :user, lambda {|u| u.role == "admin"} do
+  root :to => "admin/dashboard#show", :as => :user_root
+end
+'''
+
+* authenticated - allow you to route based on whether a scope is authenticated
+'''
+authenticated :user, lambda {|u| u.role == "admin"} do
+  root :to => "admin/dashboard#show", :as => :user_root
+end
+'''
+* unauthenticated - allow you to route based on whether a scope is not authenticated
+'''
+unauthenticated do
+  as :user do
+    root :to => 'devise/registrations#new'
+  end
+end
+'''
+
+* devise_for(*resources) - this method is responsible to generate all needed routes for devise, based on what modules you have defined in your model
+	* lots of useful stuff, see documentation
+* devise_scope/as - Sets the devise scope to be used in the controller. If you have custom routes, you are required to call this method (also aliased as :as) in order to specify to which controller it is targetted.
+'''
+as :user do
+  get "sign_in", :to => "devise/sessions#new"
+end
+'''
+
+* to override redirect path after user sign_in, either:
+	* define some path as user_root
+	* define root in authenticated scope (as above)
+	* override after_sign_in_path_for - probably not a good idea - we still want to redirect to stored_location if possible
+
+===== models =====
+
+==== Authenticatable ====
+
+=== instance ===
+* active_for_authentication?, inactive_message
+	* After authenticating a user and in each request, Devise checks if your model is active by calling model.active_for_authentication?. This method is overwritten by other devise modules. For instance, :confirmable overwrites .active_for_authentication? to only return true if your model was confirmed.
+'''
+def active_for_authentication?
+  super && special_condition_is_valid?
+end
+'''
+
+'''
+def inactive_message
+  special_condition_is_valid? ? super : :special_condition_is_not_valid
+end
+'''
+* send_devise_notification - This is an internal method called every time Devise needs to send a notification/mail. This can be overriden if you need to customize the e-mail delivery logic.
+* valid_for_authentication?(&block)
+	* yields if block_given, otherwise true
+	* **by overriding this, I could avoid validation of password, but I can't access the card_id and firma_id params here**
+
+=== class ===
+* find_first_by_auth_conditions(conditions,opts)
+'''
+def find_first_by_auth_conditions(tainted_conditions, opts={})
+  to_adapter.find_first(devise_parameter_filter.filter(tainted_conditions).merge(opts))
+end
+'''
+	* to_adapter is a method from ianwhite/orm_adapter, used so that this implementation is orm-independent
+	* User.to_adapter.find_first should work the same as User.find_by
+* **using this, i would be able to find the user by client's card_id and jidelna's firma_id**
+* find_for_authentication(conditions) - Find first record based on conditions given (ie by the sign in form). This method is always called during an authentication process but it may be wrapped as well. For instance, database authenticatable provides a `find_for_database_authentication` that wraps a call to this method. This allows you to customize both database authenticatable or the whole authenticate stack by customize `find_for_authentication.`
+	* by default, just calls find_first_by_auth_conditions(conditions)
+
+==== DatabaseAuthenticatable ====
+Authenticatable Module, responsible for encrypting password and validating authenticity of a user while signing in.
+• password=(new_password) - encrypts the password and saves the hash
+• valid_password?(password) - encrypts and compares to hash in db
+• update_with_password(params) - update attributes if :current_password matches, otherwise return error on :current_password
+• destroy_with_password(current_password) - destroy if ...
+• update_without_password(params) - Updates record attributes without asking for the current password. Never allows a change to the current password. If you are using this method, you should probably override this method to protect other attributes you would not like to be updated without a password.
+• after_database_authentication
+* authentication_salt
+* clean_up_passwords
+* .find_for_database_authentication(conditions)
+* **using this, i would also be able to find the user by client's card_id and jidelna's firma_id**
+
+===== controllers =====
+* DeviseController
+	* inhertied from Devise.parent_controller - may be changed
+	* includes Devise::Controllers::ScopedViews, DeviseHelper
+	* helper methods
+		* devise_mapping - request.env["devise.mapping"]
+			* -> assert_is_devise_resource! - tests for devise_mapping, which is set by using devise_(scope, for, ...) methods in routes
+			* -> resource_name -> resource, resource= (access instance variable named by resource_name), resource_params
+			* -> resource_class
+		* signed_in_resource - warden.authenticate(:scope => resource_name)
+		* require_no_authentication - to be used as before_filter
+			* requires that the resource is not authenticated
+* SessionsController < DeviseController
+	* new - creates new resource (user), responds with it
+	* create - saves resource returned by **warden.authenticate!**
+		* signs_in using the resource
+		* responds with it using after_sign_in_path_for
+	* destroy - signs_out and redirects to after_sign_out_path_for
+* RegistrationsController < DeviseController
+	* **this will probably have to be customized**
+
+===== included into controllers =====
+* Devise::Controllers::Helpers - concern included into ApplicationController (automatically by devise)
+	* .define_helpers(mapping) - defines authenticate_<mapping>!, <mapping>_signed_in?, current_<mapping>, <mapping>_session
+	* warden - request.env['warden']
+	* devise_controller?
+	* devise_parameter_sanitizer - Devise::ParameterSanitizer.new(resource_class, resource_name, params)
+		* override this method in your application controller to use your own parameter sanitizer
+	* allow_params_authentication!
+	* signed_in?(scope=nil)
+	* sign_in(resource_or_scope, *args)
+		* Sign in a user that already was authenticated. This helper is useful for logging users in after sign up.
+		* **resource_or_scope - symbol or instance of the resource model (e.g. user)**
+	* sign_out(resource_or_scope=nil) - returns false if no user was logged in
+	* sign_out_all_scopes - all currently logged roles
+	* stored_location_for(resource_or_scope)
+* e.g. redirect_to stored_location_for(:user) || root_path
+	* signed_in_root_path(resource_or_scope)
+* The scope root url to be used when he's signed in. By default, it first tries to find a resource_root_path, otherwise it uses the root_path.
+	* after_sign_in_path_for(resource_or_scope) - stored_location_for(resource_or_scope) || signed_in_root_path(resource_or_scope)
+'''
+      # The default url to be used after signing in. This is used by all Devise
+      # controllers and you can overwrite it in your ApplicationController to
+      # provide a custom hook for a custom resource.
+      #
+      # By default, it first tries to find a valid resource_return_to key in the
+      # session, then it fallbacks to resource_root_path, otherwise it uses the
+      # root path. For a user scope, you can define the default url in
+      # the following way:
+      #
+      # map.user_root '/users', :controller => 'users' # creates user_root_path
+      #
+      # map.namespace :user do |user|
+      #   user.root :controller => 'users' # creates user_root_path
+      # end
+      #
+      # If the resource root path is not defined, root_path is used. However,
+      # if this default is not enough, you can customize it, for example:
+      #
+      # def after_sign_in_path_for(resource)
+      #   stored_location_for(resource) ||
+      #     if resource.is_a?(User) && resource.can_publish?
+      #       publisher_url
+      #     else
+      #       super
+      #     end
+      # end
+      #
+'''
+	* after_sign_out_path_for(resource_or_scope)
+		* **resource_or_scope - symbol only!**
+	* sign_in_and_redirect(resource_or_scope, *args) - sign in a user and redirect to after_sign_in_path_for
+	* sign_out_and_redirect(resource_or_scope) - sign out and redirect to after_sign_out_path_for(scope)
+* Devise::Controllers::Rememberable
+	* remember_me(resource)
+	* forget_me(resource)

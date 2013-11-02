@@ -1,0 +1,51 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-11-01T22:14:08+01:00
+
+====== models ======
+Created Friday 01 November 2013
+
+===== refactoring =====
+http://blog.codeclimate.com/blog/2012/10/17/7-ways-to-decompose-fat-activerecord-models/
+http://hasghari.github.io/2013/09/15/active-record-enhanced-query-objects.html
+
+* keep models dry by using model concerns - http://37signals.com/svn/posts/3372-put-chubby-models-on-a-diet-with-concerns
+* http://api.rubyonrails.org/classes/ActiveSupport/Concern.html
+module Taggable
+  extend ActiveSupport::Concern
+
+  included do
+    has_many :taggings, as: :taggable, dependent: :destroy
+    has_many :tags, through: :taggings 
+    scope :unlocked, -> { where(locked: false) }
+    # ...
+  end
+
+  def tag_names
+    tags.map(&:name)
+  end
+end
+
+module Visible
+  extend ActiveSupport::Concern
+
+  module ClassMethods
+    def visible_to(person)
+      where \
+        "(#{table_name}.bucket_id IN (?) AND
+          #{table_name}.bucket_type = 'Project') OR
+         (#{table_name}.bucket_id IN (?) AND
+          #{table_name}.bucket_type = 'Calendar')",
+        person.projects.pluck('projects.id'), 
+        calendar_scope.pluck('calendars.id')
+    end
+  end
+end
+
+http://mikepackdev.com/blog_posts/24-the-right-way-to-code-dci-in-ruby
+
+===== virtual attributes =====
+* handling bad values in create actions - if the value is invalid (e.g. date can't be parsed), set the attribute to nil and add presence validation, so that it will cause errors on the object and redirect back
+* if you want the bad value to remain in the form after the redirect back, don't parse it in the setter method, just save it to an instance variable, provide reader for it, set the form to use that reader and parse the value in before_save hook
+	* http://railscasts.com/episodes/16-virtual-attributes-revised
+* https://rails.lighthouseapp.com/projects/8994/tickets/2675-support-for-multiparameter-attribute-assignment-on-virtual-attribute-writers

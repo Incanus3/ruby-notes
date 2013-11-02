@@ -1,0 +1,38 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-03-30T00:14:25+01:00
+
+====== rvm ======
+Created Saturday 30 March 2013
+
+* rvm nefunguje pres sudo:
+	* visudo:
+#Defaults       env_reset
+Defaults        !env_reset
+#Defaults       secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Defaults        !secure_path
+	* zajistit, aby se [[/etc/profile.d/rvm.sh]] sourcovalo v bashrc (lokalnim nebo globalnim), profile se u non-login shellu nenacita
+
+* rvm nefunguje pres ssh:
+	* ssh nacita bashrc, ale v tom je typicky podminka:
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+	* zakomentovat
+
+===== nasazeni aplikace, ktera pouziva rvm =====
+https://coderwall.com/p/w3rb1q - mri, rvm, nginx, puma
+http://tommy.chheng.com/2013/01/23/deploying-a-rails-app-on-nginxpuma-with-capistrano/
+https://rvm.io/integration/init-d - using rvm wrappers to start rvm-based app from init script
+https://rvm.io/deployment - rvm-capistrano, passenger, cron, god, init.d
+https://rvm.io/deployment/god
+
+rvm wrapper ruby-2.0.0-p247@objednavky objednavky puma
+* creates wrapper for puma binary, prefixed by objednavky (=> objednavky_puma), using 
+ruby-2.0.0-p247@objednavky gemset
+root@ubuserver:/home/alto/ruby/objednavky# ls -l /home/alto/.rvm/bin/objednavky_puma 
+lrwxrwxrwx 1 alto alto 56 Oct  7 17:20 /home/alto/.rvm/bin/objednavky_puma -> /home/alto/.rvm/wrappers/ruby-2.0.0-p247@objednavky/puma
+* this binary is accessible by root and uses the correct gemset
+
+
+rvm docs generate-ri
+gem server

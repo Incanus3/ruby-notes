@@ -5,61 +5,17 @@ Creation-Date: 2013-09-08T15:05:31+02:00
 ====== Ruby on Rails ======
 Created Sunday 08 September 2013
 
-http://pragprog.com/book/rails4/agile-web-development-with-rails
-http://pragprog.com/book/jvrails2/crafting-rails-applications
-http://rails4.codeschool.com/videos
-http://pragmaticstudio.com/rails
-
-http://guides.rubyonrails.org/security.html
-http://guides.rubyonrails.org/caching_with_rails.html
-http://guides.rubyonrails.org/debugging_rails_applications.html#the-logger
-http://guides.rubyonrails.org/i18n.html - localization of rails apps
-	* setting the locale from domain name
-http://guides.rubyonrails.org/active_record_callbacks.html
-
-===== working with databases that don't follow AR naming guidelines =====
-http://edgeguides.rubyonrails.org/active_record_basics.html#overriding-the-naming-conventions
-http://jvans1.github.io/blog/2012/11/20/new-post/
-http://www.slideshare.net/napcs/rails-and-legacy-databases-railsconf-2009
-http://sl33p3r.free.fr/tutorials/rails/legacy/legacy_databases.html
-
-'''
-script/generate model tablename
-class Client < ActiveRecord::Base
-'''
-	'''
-	set_table_name "client" OR self.table_name = "client"
-	set_primary_key "client_id" OR self.primary_key = "client_id"
-	
-	has_one :firma, :class_name => "Firma", :foreign_key => "firma_key"
-	alias_attribute 'name', 'person_name'
-	
-	pluralize_table_names = false # this shouldn't be needed
-	end
-	'''
+===== lokalizace railsu =====
+http://guides.rubyonrails.org/i18n.html
+http://ruby-i18n.org/wiki
+https://github.com/svenfuchs/rails-i18n
 
 
-https://www.petekeen.net/mastering-modern-payments
-http://blog.sensible.io/2013/08/17/strong-parameters-by-example.html
-http://matthewlehner.net/rails-api-testing-guidelines/
 
-http://blog.arkency.com/ - great, mostly Rails, blog
-http://blog.arkency.com/2013/05/is-it-cute-or-ugly/
-http://blog.arkency.com/2013/07/ruby-and-aop-decouple-your-code-even-more/
-http://blog.arkency.com/2013/07/coffeescript-tests-for-rails-apps/
-http://blog.arkency.com/2013/09/testing-client-side-views-in-rails-apps/
-http://bibwild.wordpress.com/2012/03/15/activerecord-concurrency-currently-good-news-and-bad/
-
-https://github.com/rails/rails/blob/3-2-stable/activemodel/lib/active_model/secure_password.rb
-http://api.rubyonrails.org/classes/ActiveModel/Validations/HelperMethods.html#method-i-validates_confirmation_of - adds <attr name>_confirmation parameter to Model.create, update that is checked against attribute during save
-http://api.rubyonrails.org/classes/ActiveModel/Validations/ClassMethods.html - obecne (flexibilni) validatory
-
-http://blog.steveklabnik.com/posts/2011-09-06-the-secret-to-rails-oo-design
-http://blog.steveklabnik.com/posts/2011-09-09-better-ruby-presenters
-http://words.steveklabnik.com/
-
-http://www.manning.com/bigg2/ - Rails 4 in action
-
-http://kpumuk.info/ruby-on-rails/simplifying-your-ruby-on-rails-code/
-
-http://railscasts.com/?type=free
+* storing money values
+	* store as price in cents, to get price in dollars, do price_in_cents.to_d/100, to convert back, do price_in_dollars.to_d*100
+* converting dates
+	* to string - date.strftime("%Y-%m-%d %H:%M:%S")
+		* if date can be nil, use date.try(:strftime, format)
+	* from string - Time.zone.parse(string)
+	* chronic gem - tons of time formats for parsing - relative values, etc.

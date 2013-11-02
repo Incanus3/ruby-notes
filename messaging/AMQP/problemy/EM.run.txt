@@ -21,7 +21,7 @@ Created Monday 17 June 2013
 * -> = calls
 * => = returns
 * << = inherited from
-* since AMQP.connect just calls EventMachine.connect and handles the callbacks, it shouldn't block the reactor, unless [[Prace:friendly systems:server management:message-server:AMQP gem:EventMachine]] does
+* since AMQP.connect just calls EventMachine.connect and handles the callbacks, it shouldn't block the reactor, unless Prace:friendly systems:server management:message-server:AMQP gem:EventMachine does
 	* why does the call to add_timer or next_tick help?
 
 
